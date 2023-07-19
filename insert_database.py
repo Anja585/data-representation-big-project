@@ -8,7 +8,7 @@ df = df[['isin_code',
          'coupon_rate', 
          'denomination']] 
 
-engine = create_engine('mysql+pymysql://anja585:collateral@anja585.mysql.pythonanywhere-services.com/collateral?charset=utf8mb4')
+engine = create_engine('mysql+pymysql://anja585:collateral@anja585.mysql.pythonanywhere-services.com/anja585$collateral?charset=utf8mb4')
 
 df.to_sql(name='ea_assets', con=engine, if_exists='replace', index=False)
 
