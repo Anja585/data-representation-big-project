@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </head>
+<body>
+    <h4>Eligible assets</h4>
+    <h6>Click the action to perform</h6>
+        <form action='/isins'>
+        <p><button method="GET">All isins</button></p>
+        </form>
+        <div id="output"></div>
+        <p><button onclick="select_one()">Isin code</button>
+        <input id="name" type="text" placeholder="isin code"></p>
+        <div id="output2"></div>
+        <p>
+        <button onclick="create_one()">Create</button>      
+        <input id="name1" type="text" placeholder="isin code">
+        <input id="name2" type="text" placeholder="issue date">
+        <input id="name3" type="text" placeholder="maturity date">
+        <input id="name4" type="number" placeholder="coupon rate">
+        <input id="name5" type="text" placeholder="denomination"></p>
+        <p><button onclick="update_one()">Update</button>
+        <input id="name6" type="text" placeholder="isin code">
+        <input id="name7" type="text" placeholder="issue date">
+        <input id="name8" type="text" placeholder="maturity date">
+        <input id="name9" type="number" placeholder="coupon rate">
+        <input id="name10" type="text" placeholder="denomination"></p>
+        <p><button onclick="delete_one()">Delete</button>
+        <input id="name11" type="text" placeholder="isin code"></p>  
+                
+    <script>
+            function select_one(){
+                var isin_code = document.getElementById("name").value;
+                $.ajax({
+                    "url":"/isins/" + isin_code,
+                    "method":"GET",
+                    "data":"",
+                    "dataType":"JSON",
+                    "success":function(result){
+                        document.getElementById("output2").innerHTML = result;
+                        },
+                    "error":function(xhr,status,error){
+                        console.log("status:"+status+" message:"+error);
+                    }
+                });
+            }
+            function create_one(){
+                var isin_code = document.getElementById("name1").value;
+                var issue_date = document.getElementById("name2").value;
+                var maturity_date = document.getElementById("name3").value;
+                var coupon_rate = document.getElementById("name4").value;
+                var denomination = document.getElementById("name5").value;
+                $.ajax({
+                    "url":"/isins",
+                    "method":"POST",
+                    "data": {"isin_code":isin_code,
+                            "issuance_date": issue_date,
+                            "maturity_date": maturity_date,
+                            "coupon_rate": coupon_rate,
+                            "denomination": denomination},
+                    "dataType":"JSON",
+                    "success":function(result){
+                        alert('done')
+                        console.log(result);
+                    },
+                    "error":function(xhr,status,error){
+                        console.log("status:"+status+" message:"+error);
+                    }
+                });
+            }
+            function update_one(){
+                var isin_code = document.getElementById("name6").value;
+                var issue_date = document.getElementById("name7").value;
+                var maturity_date = document.getElementById("name8").value;
+                var coupon_rate = document.getElementById("name9").value;
+                var denomination = document.getElementById("name10").value;
+                $.ajax({
+                    "url":"/isins/" + isin_code,
+                    "method":"PUT",
+                    "data":{"isin_code":isin_code,
+                            "issuance_date": issue_date,
+                            "maturity_date": maturity_date,
+                            "coupon_rate": coupon_rate,
+                            "denomination": denomination},
+                    "dataType":"JSON",
+                    "success":function(result){
+                        alert('done')
+                        console.log(result);
+                    },
+                    "error":function(xhr,status,error){
+                        console.log("status:"+status+" message:"+error);
+                    }
+                });
+            }
+            function delete_one(){
+                var isin_code2 = document.getElementById("name11").value;
+                $.ajax({
+                    "url":"/isins/" + isin_code2,
+                    "method":"DELETE",
+                    "data":"",
+                    "dataType":"JSON",
+                    "success":function(result){
+                        alert('done')
+                        console.log(result);
+                    },
+                    "error":function(xhr,status,error){
+                        console.log("status:"+status+" message:"+error);
+                    }
+                });
+            }
+        
+    </script>
+    </body>
+</html>
